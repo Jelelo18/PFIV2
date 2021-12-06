@@ -1,0 +1,234 @@
+/*
+    auteur: Nicolas Chourot
+ */
+body {
+    background-color: white;
+}
+button {
+    padding: 2px 3px;
+    color: blue;
+}
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+}
+.header-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.header-photos-container{
+    background-color: rgb(60, 122, 255);
+}
+.header-photos-container div {
+    font-size: large;
+    text-align: left;
+    padding-top: 7px;
+    padding-left: 0px;
+    color: white;
+}
+.title-container {
+    display:grid; 
+    grid-template-columns: repeat(auto-fill, 1fr);
+    grid-template-rows: 70px 85px ;
+}
+div2 {
+    border:1px solid red;
+}
+.user-management-container {
+    display:grid; 
+    grid-template-columns: auto auto;
+    text-align: rigth;
+}
+
+.searchBar{
+    background-color: rgb(60, 122, 255);
+    color:white;
+}
+.searchBar div{
+    font-size: medium;
+    text-align: left;
+    padding-top: 5px;
+    padding-left: 2%;
+}
+.form-photo-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.form-photo-container div {
+    text-align: left;
+    padding: 5px;
+    background-color: lightgray;
+}
+.photo-list-scroll-containter {
+    height: 100%;
+    background-color:white;
+   
+}
+.photo-list-container {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f2f5;
+}
+.thumbnailContainer {
+    text-align: center;
+    width:500px;
+    cursor: pointer;
+}
+.thumbnailLayout{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    grid-template-rows: 10% 90%;
+}
+.thumbnail:hover{
+   border:4px solid black;
+}
+.thumbnailHeader{
+    font-weight: bold;
+    font-size: 18px;
+    margin:auto;
+    width: 95%;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.thumbnail{
+   width:500px;
+   height:700px;
+   margin:3px;
+   border:4px solid transparent;
+   border-radius: 8px;
+   text-align: right;
+}
+
+.waiting {
+    font-size: 14px;
+    font-weight: bold;
+    color:green;
+}
+.httpError {
+    font-size: 14px;
+    font-weight: bold;
+    color:red;
+}
+.form-container {
+    overflow-y: hidden;
+    padding-left:1%;
+}
+
+.array-container {
+    border:1px solid black;
+}
+.cell {
+    height: 33px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.sortcmd {
+    padding-left: 7px !important;
+    cursor: n-resize;
+}
+.sortcmd:hover{
+    background-color:rgb(92, 143, 255);
+}
+.sortcmd::selection {
+    color:none;
+    background: none;
+}
+.selectedRow {
+    background-color: darkturquoise;
+}
+.favicon {
+    text-align:center;
+    background-image: url(favicon.ico); 
+    background-size: contain; 
+    background-repeat: no-repeat;
+    height: 24px;
+    width: 24px;
+    margin-right: 5px;
+    float: left;
+}
+input[type=text] {
+    min-width: 100px !important;
+    margin-bottom:5px !important;
+    width: 100%;
+}
+input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+input[type=search] {
+    color:black;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.icon {
+    margin-top:-11px;
+    font-size: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.gicon {
+    margin-top:-9px;
+    height: 22px;
+    cursor: pointer;
+}
+.giconBig {
+    font-size: 22px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.btn {
+    border: none;
+    min-width: 50px;
+}
+.imageDownloader {
+    width:100%;
+}
+
+.UploadedImage {
+    width:100%;
+}
+
+input[type="checkbox"]{
+    height: 18px !important;
+    width: 18px !important;
+}
+.avatar{
+    width:48px;
+    height: 48px;
+    border-radius: 24px;
+    float:left;
+}
+
+.btncmd {
+    font-size: 20px;
+    font-size: 20px;
+    color:dodgerblue;
+    background-color: rgba(0,0,0,0.5);
+    margin:3px;
+    padding: 3px;
+    border-radius: 4px;
+}
+
+.btncmd:hover {
+    color:dodgerblue;
+    background-color: rgba(200,200,200,0.5);
+    
+}
+.sharedIndicator{
+    width:70px;
+    border-radius: 35px;
+    background-color: rgba(200,200,200,0.5);;
+}
