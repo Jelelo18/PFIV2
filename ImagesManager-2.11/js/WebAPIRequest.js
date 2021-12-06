@@ -96,6 +96,22 @@ function webAPI_getUserInfo(userId, successCallBack, errorCallBack) {
         }
     })
 }
+function webAPI_getPostUserInfo(userId, successCallBack, errorCallBack) {
+    $.ajax({
+        url: apiBaseURL + "/Accounts/index" + "/" + userId,
+        type: 'GET',
+        contentType:'text/plain',
+        data:{},
+        success: function (profil) {
+            console.log(profil);
+            successCallBack(profil);
+        },
+        error: function(jqXHR) {  
+            errorCallBack(jqXHR.status);
+            console.log("webAPI_login - error");
+        }
+    })
+}
 function webAPI_logout(userId, successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL + "/accounts/logout/" + userId,

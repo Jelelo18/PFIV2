@@ -57,3 +57,19 @@
     margin-left: 10px;
     border-radius: 15px;
 }
+.editPost{
+    cursor: pointer;
+}
+#photoDescription{
+    height: 50vh;
+}
+.postAvatar{
+    width:48px;
+    height: 48px;
+    border-radius: 24px;
+    float:left;
+}
+#username{
+    margin-top: 8px;
+    color: black;
+}

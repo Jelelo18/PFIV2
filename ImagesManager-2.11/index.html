@@ -66,6 +66,8 @@
                 style="margin-left: 0px; font-family: Verdana, Geneva, Tahoma, sans-serif; color: black; font-weight: 700; margin-left: 10px;">News
             </a>
 
+            <a class="addNewsBtn" id="addNewsBtn">Ajouter</a>
+
             <form class="navbar-form" style="display: flex; flex-direction: row; align-items: center; margin-left: 100px;"> 
                 <div class="form-group">
                     <input type="search" id="form1" class="form-control" placeholder="Recherche par auteur" style="border-radius: 5px 0px 0px 5px;"/>
@@ -84,13 +86,14 @@
             <ul class="nav navbar-nav navbar-right" style="float: right;">
 
                 <!-- Container wrapper -->
+                <div id="avatarContainer"></div>
+                <h5 id="username"></h1>
                 <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;" id="btn_OpenLoginForm">
                     <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
                 </button>
                 <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;" id="btn_OpenConfirmLogout">
                     <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
                 </button>
-                
                 <button type="button" class="btn" style="min-width: 20px; margin-left: 5px; background-color: #ffffff;" id="btn_OpenProfilDialog">
                     <i class="fa fa-user" aria-hidden="true" style="font-size: 20px;"></i>
                 </button>
@@ -136,7 +139,6 @@
             <input type="hidden" id="photoGUID" />
             <input type="hidden" id="photoCreated" />
             <input type="text" id="photoTitle" placeholder="Titre" class="form-control" />
-            <input type="text" id="photoDescription" placeholder="Description" class="form-control" />
             <table>
                 <tr>
                     <td style="padding:4px;"><label for="photoShared">Partagée</label></td>
@@ -147,6 +149,8 @@
                 <div class='imageDownloader' id='photo' defautImageSrc='images/No_image.png'></div>
                 <label>(cliquez pour la changer l'image)</label>
             </div>
+            <textarea id="photoDescription" placeholder="Description" class="form-control">
+            </textarea>
         </form>
     </div>
 
@@ -324,7 +328,7 @@
         function OpenAddphotoDialog() {
             if (!operationOnGoing()) {
                 addMode = true;
-                $('#dialog-photoForm').dialog('option', 'title', 'Ajout de photo');
+                $('#dialog-photoForm').dialog('option', 'title', 'Ajout de publication');
                 $("#dialog-photoForm").dialog('open');
             }
         }
@@ -332,7 +336,7 @@
             e.preventDefault();
             if (!operationOnGoing()) {
                 editMode = true;
-                $('#dialog-photoForm').dialog('option', 'title', 'Modification de photo');
+                $('#dialog-photoForm').dialog('option', 'title', 'Modification de la publication');
                 $("#dialog-photoForm").dialog('open');
                 let photoId = e.currentTarget.id.split('_')[1];
                 webAPI_GET(photoId, fillEditphotoForm, AlertError);
@@ -901,7 +905,10 @@
             let postUserInfo = $("<div class='postUserInfo' id='postUserInfo_"+ photo.Id + "'></div>");
             let postInfo = $("<div class='postInfo' id='postInfo_" + photo.Id + "'></div>");
             let CRUDBtnContainer = $("<div class='postCRUDBtnContainer' id='postCRUDBtnContainer_" + photo.Id + "'></div>")
+            let avatarContainer = $("<div id='postAvatarContainer' style='margin-left: 15px;'></div>");
 
+            webAPI_getPostUserInfo(photo.UserId, (user) => {avatarContainer.append("<div class='postAvatar' style='background:url(" + user.AvatarURL + ") no-repeat center; background-size: cover; margin-right:5px;''></div>")});
+            
             postUserInfo.append($("<p class='postUsername' id='postUsername_"+photo.Id+"'>"+photo.Username+"</p>"));
             postInfo.append($("<p class='postTitle' id='photoTitle_"+ photo.Id + "'>"+photo.Title + "</p>"));
             postInfo.append($("<div class='postImage' style='background:url(" + photo.ThumbnailURL + ") no-repeat center; background-size: cover; margin-right:5px;'></div>"));
@@ -915,14 +922,15 @@
             if (0 == 0) {
                 showCRUD = 'visible';
                 // Bouton d'appel à la modification de la photo
-                $(CRUDBtnContainer).append(makeButton("editphoto fa fa-pencil", "edit_" + photo.Id, "Modifier " + photo.Title).append(makeGlyphIcon('pencil')));
+                $(CRUDBtnContainer).append(makeButton("editPost fa fa-pencil", "edit_" + photo.Id, "Modifier " + photo.Title));
                 // Bouton d'appel au retrait de photo
                 //image.append(makeButton("deletephoto btncmd", "delete_" + photo.Id, "Effacer " + photo.Title).append(makeGlyphIcon('remove')));
                 if (photo.Shared) {
                     //image.append($("<img src='images/shared.png' class='sharedIndicator'>"));
                 }
             } 
-            
+
+            postUserInfo.append(avatarContainer);
             postLayout.append(postUserInfo);
             postLayout.append(postInfo);
             postLayout.append(CRUDBtnContainer);
@@ -961,8 +969,8 @@
                         checkCRUDPermission(photo);
                     }
                 });
-                $('.editphoto').click(OpenEditphotoDialog);
-                $('.deletephoto').click(deletephoto);
+                $('.editPost').click(OpenEditphotoDialog);
+                $('.deletePost').click(deletephoto);
             }
             $("#dialog-waiting").dialog('close');
         }
