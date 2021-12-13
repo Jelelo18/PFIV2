@@ -103,6 +103,22 @@ function webAPI_getPostUserInfo(userId, successCallBack, errorCallBack) {
         contentType:'text/plain',
         data:{},
         success: function (profil) {
+            successCallBack(profil);
+        },
+        error: function(jqXHR) {  
+            errorCallBack(jqXHR.status);
+            console.log("webAPI_login - error");
+        }
+    })
+}
+
+function webAPI_postNews(news, successCallBack, errorCallBack) {
+    $.ajax({
+        url: apiBaseURL + "/api/news",
+        type: 'GET',
+        contentType:'text/plain',
+        data: news,
+        success: function (profil) {
             console.log(profil);
             successCallBack(profil);
         },
@@ -112,6 +128,7 @@ function webAPI_getPostUserInfo(userId, successCallBack, errorCallBack) {
         }
     })
 }
+
 function webAPI_logout(userId, successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL + "/accounts/logout/" + userId,
@@ -146,14 +163,14 @@ function webAPI_HEAD(successCallBack, errorCallBack) {
 }
 function webAPI_GET_ALL(queryString, successCallBack, errorCallBack) {
     $.ajax({
-        url: apiBaseURL + "/api/images" + queryString,
+        url: apiBaseURL + "/api/news" + queryString,
         type: 'GET',
         contentType:'text/plain',
         data:{},
-        success: (data, status, xhr) => { 
+        success: (news, status, xhr) => { 
             let ETag = xhr.getResponseHeader("ETag");
-            successCallBack(data, ETag); 
-            console.log("webAPI_GET_ALL - success", data); 
+            successCallBack(news, ETag); 
+            console.log("webAPI_GET_ALL - success", news); 
             console.log(`ETag: ${ETag}`);
         },
         error: function(jqXHR) {
@@ -164,7 +181,7 @@ function webAPI_GET_ALL(queryString, successCallBack, errorCallBack) {
 }
 function webAPI_GET( id, successCallBack, errorCallBack) {
     $.ajax({
-        url: apiBaseURL + "/api/images" + "/" + id,
+        url: apiBaseURL + "/api/news" + "/" + id,
         type: 'GET',
         contentType:'text/plain',
         data:{},
@@ -175,13 +192,13 @@ function webAPI_GET( id, successCallBack, errorCallBack) {
         }
     });
 }
-function webAPI_POST( data , successCallBack, errorCallBack) {
+function webAPI_POST( news , successCallBack, errorCallBack) {
     $.ajax({
-        url: apiBaseURL + "/api/images",
+        url: apiBaseURL + "/api/news",
         type: 'POST',
         headers: getBearerAuthorizationToken(),
         contentType:'application/json',
-        data: JSON.stringify(data),
+        data: JSON.stringify(news),
         success: () => {successCallBack();},
         error: function(jqXHR) {
             errorCallBack(jqXHR.status);

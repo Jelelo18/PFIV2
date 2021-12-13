@@ -1,6 +1,6 @@
 .addNewsBtn {
-    border: none; /* Remove borders */
-    background-color: transparent;
+    font-size: 3em;
+    color: yellow;
 }
 
 .btn{
@@ -24,22 +24,56 @@
     display: grid;
     grid-template-columns: 25% 50% 25%;
 }
+
+@media screen and (max-width: 992px) {
+    .postLayout {
+        display: grid;
+        grid-template-columns: 10% 80% 10%;
+    }
+}
+
 .postUserInfo{
-    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2vmin;
     justify-self: right;
-    height: 120px;
-    width: 150px;
+    height: fit-content;
+    width: 9vmax;
     background-color: #ffffff;
-    text-align: center;
-    margin-right: 10px;
-    border-radius: 15px;
+    margin-right: 0;
+    border-radius: 15px 0px 0px 15px;
+    font-size:2vmax;
 }
-.postInfo{
-    
+
+@media screen and (max-width: 992px) {
+    .postUserInfo {
+        display: flex;
+        flex-direction: column;
+        padding-top: 2vmin;
+        justify-self: right;
+        height: fit-content;
+        width: 9vmax;
+        background-color: #ffffff;
+        margin-right: 0;
+        border-radius: 15px 0px 0px 15px;
+        font-size:2vmax;
+    }
+}
+
+.postInfo{ 
     height: 100%;
-    border-radius: 15px;
+    border-radius: 0px 15px 15px 15px;
     background-color: #ffffff;
 }
+
+@media screen and (max-width: 992px) {
+    .postInfo {
+        height: 100%;
+        border-radius: 0px 15px 15px 15px;
+        background-color: #ffffff;
+    }
+}
+
 .postImage{
     width: 100%;
     height: 400px;
@@ -59,17 +93,38 @@
 }
 .editPost{
     cursor: pointer;
+    margin-right: 5px;
+}
+.deletePost{
+    cursor: pointer;
 }
 #photoDescription{
     height: 50vh;
 }
+.postAvatarContainer{
+    margin: auto;
+}
 .postAvatar{
-    width:48px;
-    height: 48px;
+    width:7vmax;
+    height: 7vmax;
     border-radius: 24px;
-    float:left;
+}
+.postUsername{
+    margin:auto;
 }
 #username{
     margin-top: 8px;
     color: black;
+}
+.news-list-scroll-containter {
+    height: 100%;
+    background-color:white;
+   
+}
+.news-list-container {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #d9daf2;
 }

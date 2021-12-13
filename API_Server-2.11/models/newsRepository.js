@@ -1,45 +1,47 @@
 const Repository = require('./repository');
 const ImageFilesRepository = require('./imageFilesRepository.js');
-const User = require('./user.js');
+const News = require('./new.js');
 const utilities = require("../utilities");
 module.exports = 
-class UsersRepository extends Repository {
+class NewsRepository extends Repository {
     constructor(req){
-        super('Users', true);
+        super('News', true);
         this.req = req;
     }
-    bindAvatarURL(user){
-        if (user) {
-            let bindedUser = {...user};
-            if (user["AvatarGUID"] != ""){
-                bindedUser["AvatarURL"] = "http://" + this.req.headers["host"] + ImageFilesRepository.getImageFileURL(user["AvatarGUID"]);
+    bindImageURL(news){
+        console.log(news);
+        if (news) {
+            let bindedNews = {...news};
+            if (news["ImageGUID"] != ""){
+                bindedNews["ImageURL"] = "http://" + this.req.headers["host"] + ImageFilesRepository.getImageFileURL(news["ImageGUID"]);
             } else {
-                bindedUser["AvatarURL"] = "";
+                bindedNews["ImageURL"] = "";
             }
-            return bindedUser;
+            return bindedNews;
         }
         return null;
     }
-    bindAvatarURLS(images){
-        let bindedUsers = [];
+    bindImageURLS(images){
+        let bindedNews = [];
         for(let image of images) {
-            bindedUsers.push(this.bindAvatarURL(image));
+            bindedNews.push(this.bindImageURL(image));
         };
-        return bindedUsers;
+        console.log(bindedNews)
+        return bindedNews;
     }
     get(id) {
-        return this.bindAvatarURL(super.get(id));
+        return this.bindImageURL(super.get(id));
     }
     getAll() {
-        return this.bindAvatarURLS(super.getAll());
+        return this.bindImageURLS(super.getAll());
     }
-    add(user) {
-        user["Created"] = utilities.nowInSeconds();
-        console.log(user);
-        if (User.valid(user)) {
-            user["AvatarGUID"] = ImageFilesRepository.storeImageData("", user["ImageData"]);
-            delete user["ImageData"];
-            return this.bindAvatarURL(super.add(user));
+    add(news) {
+        news["Created"] = utilities.nowInSeconds();
+        console.log(news);
+        if (News.valid(news)) {
+            news["ImageGUID"] = ImageFilesRepository.storeImageData("", news["ImageData"]);
+            delete news["ImageData"];
+            return this.bindImageURL(super.add(news));
         }
         return null;
     }

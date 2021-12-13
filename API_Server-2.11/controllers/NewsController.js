@@ -30,6 +30,7 @@ class NewsController extends require('./Controller') {
     post(news){  
         if (this.requestActionAuthorized()) {
             let newNews = this.newsRepository.add(news);
+            console.log(newNews);
             if (newNews)
                 this.response.created(newNews);
             else

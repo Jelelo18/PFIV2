@@ -1,9 +1,9 @@
 <!--------------------------------------------------------------------------------------------------
     Single Page Application
-    photoS MANAGER WEB CLIENT
+    NEWS MANAGER WEB CLIENT
 
-    LAST UPDATE: november 2021
-    Author: Nicolas Chourot
+    LAST UPDATE: december 2021
+    Authors: Nicolas Chourot / Jerome Laurence
     Lionel-Groulx College
 ----------------------------------------------------------------------------------------------------->
 <!DOCTYPE html>
@@ -11,33 +11,34 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta author="Nicolas Chourot">
+    <meta author="Nicolas Chourot / Jerome Laurence">
     <meta http-equiv="Content-Type" content="text/html; charset= ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gestionnaire de photos</title>
+    <title>Gestionnaire de nouvelles</title>
 
     <!---STYLES BUNDLE -------------------------------------------------------------------------->
     <link rel="stylesheet" href="css/jquery-ui.css">
-<link rel="icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Tooltips styles -->
+
+    <!-- TOOLTIPS STYLE -->
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/style.css">
 
-
-    <!-- Confirm dialog styles -->
+    <!-- CONFIRM DIALOG STYLE -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-    <!-- Font awesome styles -->
+
+    <!-- FONT AWESOME STYLES -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- photo manager main layout styles -->
+    <!-- NEWS MANAGER MAIN LAYOUT STYLE -->
     <link rel="stylesheet" href="css/photosManagerLayout.css">
 
     <!-- favicon link: use https://favicon.io/favicon-converter/ to create new favicon -->
-    
-    <!---Page backgroung image------------------------------------------------------------------>
+
+    <!---PAGE BACKGROUND IMAGE------------------------------------------------------------------>
     <style>
         body {
             background: url(images/city.jpg) no-repeat center center fixed;
@@ -56,27 +57,29 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 
-    <!---photoS MANAGER UI CONTAINER--------------------------------------------------------->
-    <!---Navbar------------------------------------------------------->
-
+    <!---NEWS MANAGER UI CONTAINER--------------------------------------------------------->
+    <!---NAVBAR------------------------------------------------------->
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ffffff;" id="customNavbar">
             <img src="./images/favicon.png" style="height: 60px; border-radius: 8px; margin-left: 5px;">
-            <a class="navbar-brand" href="#"
+            <a class="navbar-brand" href="index.html"
                 style="margin-left: 0px; font-family: Verdana, Geneva, Tahoma, sans-serif; color: black; font-weight: 700; margin-left: 10px;">News
             </a>
 
-            <a class="addNewsBtn" id="addNewsBtn">Ajouter</a>
+            <span id="addNewsBtn" class="fa fa-plus" style="font-size: 3em; color: green; cursor: pointer; margin-left: 10px;"></span>
 
-            <form class="navbar-form" style="display: flex; flex-direction: row; align-items: center; margin-left: 100px;"> 
+            <form class="navbar-form"
+                style="display: flex; flex-direction: row; align-items: center; margin-left: 100px;">
                 <div class="form-group">
-                    <input type="search" id="form1" class="form-control" placeholder="Recherche par auteur" style="border-radius: 5px 0px 0px 5px;"/>
+                    <input type="search" id="form1" class="form-control" placeholder="Recherche par auteur"
+                        style="border-radius: 5px 0px 0px 5px;" />
                 </div>
                 <button type="button" class="btn" style="margin-left: 0px; border-radius: 0px 5px 5px 0px;">
                     <i class="fa fa-search" style="font-size: 20px"></i>
                 </button>
                 <div class="form-group" style="margin-left: 15px;">
-                    <input type="search" id="form1" class="form-control" placeholder="Recherche par mots-clés" style="border-radius: 5px 0px 0px 5px;"/>
+                    <input type="search" id="form1" class="form-control" placeholder="Recherche par mots-clés"
+                        style="border-radius: 5px 0px 0px 5px;" />
                 </div>
                 <button type="button" class="btn" style="margin-left: 0px; border-radius: 0px 5px 5px 0px;">
                     <i class="fa fa-search" style="font-size: 20px"></i>
@@ -85,77 +88,57 @@
 
             <ul class="nav navbar-nav navbar-right" style="float: right;">
 
-                <!-- Container wrapper -->
+                <!-- CONTAINER WRAPPER -->
                 <div id="avatarContainer"></div>
-                <h5 id="username"></h1>
-                <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;" id="btn_OpenLoginForm">
-                    <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
-                </button>
-                <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;" id="btn_OpenConfirmLogout">
-                    <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
-                </button>
-                <button type="button" class="btn" style="min-width: 20px; margin-left: 5px; background-color: #ffffff;" id="btn_OpenProfilDialog">
-                    <i class="fa fa-user" aria-hidden="true" style="font-size: 20px;"></i>
-                </button>
+                <h5 id="username">
+                    </h1>
+                    <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;"
+                        id="btn_OpenLoginForm">
+                        <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
+                    </button>
+                    <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;"
+                        id="btn_OpenConfirmLogout">
+                        <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
+                    </button>
+                    <button type="button" class="btn"
+                        style="min-width: 20px; margin-left: 5px; background-color: #ffffff;" id="btn_OpenProfilDialog">
+                        <i class="fa fa-user" aria-hidden="true" style="font-size: 20px;"></i>
+                    </button>
             </ul>
         </nav>
 
-        
-
-
-
-
-
-
-        <!---photoS LIST HEAD----------------------------------------------------------->
+        <!---NEWS LIST HEAD----------------------------------------------------------->
         <div class="header-container">
         </div>
 
-        <!---SEARCH BAR--------------------------------------------------------------------->
-        <div class="searchBar columns-layout">
-            <div>
-                <!--<input type="search" placeholder="Date..." id="search_created">-->
-            </div>
-            <div><input type="search" placeholder="Titre..." id="search_title"></div>
-
-            <div><input type="search" placeholder="Usager..." id="search_user"></div>
-            <div></div>
-            <div></div>
-        </div>
-
-        <!---photoS LIST----------------------------------------------------------------->
-        <div class="photo-list-scroll-containter">
-            <div class="photo-list-container" id="photoList">
-                <!-- La liste de photos sera injectée ici par du JavaScript -->
+        <!---NEWS LIST----------------------------------------------------------------->
+        <div class="news-list-scroll-containter">
+            <div class="news-list-container" id="newsList">
+                <!-- La liste de nouvelles sera injectée ici par du JavaScript -->
             </div>
         </div>
     </div>
 
-    <!---PHOTO DIALOG------------------------------------------------------------------------>
-    <div id="dialog-photoForm" title="photo" class="dialog">
-        <form id="photoForm" class="form-group">
-            <input type="hidden" id="photoId" />
-            <input type="hidden" id="photoUserId" />
-            <input type="hidden" id="photoGUID" />
-            <input type="hidden" id="photoCreated" />
-            <input type="text" id="photoTitle" placeholder="Titre" class="form-control" />
-            <table>
-                <tr>
-                    <td style="padding:4px;"><label for="photoShared">Partagée</label></td>
-                    <td style="padding:4px;"><input type="checkbox" id="photoShared" name="photoShared" /></td>
-                </tr>
-            </table>
+    <!---NEWS DIALOG------------------------------------------------------------------------>
+    <div style="display: none;" id="dialog-newsForm" title="news" class="dialog">
+        <form id="newsForm" class="form-group">
+            <input type="hidden" id="newsId" />
+            <input type="hidden" id="newsUserId" />
+            <input type="hidden" id="newsGUID" />
+            <input type="hidden" id="newsCreated" />
+            <input type="text" id="newsTitle" placeholder="Titre" class="form-control" />
+
             <div style="vertical-align:top; text-align: center ">
-                <div class='imageDownloader' id='photo' defautImageSrc='images/No_image.png'></div>
+                <div class='imageDownloader' id='news' defautImageSrc='images/No_image.png'></div>
                 <label>(cliquez pour la changer l'image)</label>
             </div>
-            <textarea id="photoDescription" placeholder="Description" class="form-control">
+            <textarea id="newsText" placeholder="Texte" class="form-control">
             </textarea>
         </form>
     </div>
 
     <!---LOGIN DIALOG--------------------------------------------------------------------------->
-    <div id="dialog-loginForm" title="Connexion" class="dialog">
+    <div style="display: none;" id="dialog-loginForm" title="Connexion" class="dialog">
         <form id="loginForm" class="form-group">
             <input type="text" id="loginEmail" placeholder="Courriel" class="form-control" />
             <input type="password" id="loginPassword" placeholder="Mot de passe" class="form-control" />
@@ -168,7 +151,7 @@
     </div>
 
     <!---PROFIL DIALOG-------------------------------------------------------------------------->
-    <div id="dialog-profilForm" title="Profil" class="dialog">
+    <div style="display: none;" id="dialog-profilForm" title="Profil" class="dialog">
         <form id="profilForm" class="form-group">
             <input type="hidden" id="avatarGUID" />
             <input type="hidden" id="profilId" />
@@ -186,7 +169,7 @@
     </div>
 
     <!---WAITING DIALOG-------------------------------------------------------------------------->
-    <div id="dialog-waiting" title="" class="dialog">
+    <div style="display: none;" id="dialog-waiting" title="" class="dialog">
         <img src="images/writing.gif" alt="waiting" />
     </div>
 
@@ -215,21 +198,21 @@
         let sorted = [{ field: "Created", desc: true }];
         let currentETag = "";
         let previousQueryString = "";
-        let photoValidationProvider = null;
+        let newsValidationProvider = null;
         let profilValidationProvider = null;
         let pausephotosListPeriodicRefresh = false;
         let periodicRefreshPeriod = 5; // seconds
 
         function initUI() {
-            initphotoValidation();
+            initNewsValidation();
             initProfilValidation();
 
-            initphotoDialog();
+            initNewsDialog();
             initLoginDialog();
             initProfilDialog();
 
             $(".searchBar").hide();
-            $('#btn_OpenAddphotoDialog').click(OpenAddphotoDialog);
+            $('#addNewsBtn').click(OpenAddNewsDialog);
             $("#btn_OpenLoginForm").click(OpenLoginForm);
             $("#btn_OpenConfirmLogout").click(OpenConfirmLogout);
             $("#btn_OpenProfilDialog").click(OpenProfilDialog);
@@ -263,37 +246,37 @@
             createCssClass('.columns-layout', "display: grid; grid-template-columns: 30% 30% 30% 5% 5%;");
         }
 
-        function initphotoDialog() {
-            $("#dialog-photoForm").dialog({
+        function initNewsDialog() {
+            $("#dialog-newsForm").dialog({
                 autoOpen: false,
                 show: { effect: 'fade', duration: 400 },
                 hide: { effect: 'fade', duration: 400 },
                 buttons: [
                     {
-                        id: 'btn-Savephoto',
+                        id: 'btn-Savenews',
                         text: 'Soumettre',
                         click: function () {
 
-                            // Ajout d'un photo
+                            // Ajout d'une nouvelle
                             if (addMode) {
-                                let photo = makephotoFromphotoForm(false);
-                                if (photoValidationProvider.isValid()) {
+                                let news = makeNewsFromNewsForm(false);
+                                if (newsValidationProvider.isValid()) {
                                     $("#dialog-waiting").dialog('open');
-                                    $("#dialog-photoForm").dialog("close");
-                                    webAPI_POST(photo, () => { updateUI(); }, AlertError);
+                                    $("#dialog-newsForm").dialog("close");
+                                    webAPI_POST(news, () => { updateUI(); }, AlertError);
                                 }
                             } else {
-                                let photo = makephotoFromphotoForm(true);
-                                if (photoValidationProvider.isValid()) {
+                                let photo = makeNewsFromNewsForm(true);
+                                if (newsValidationProvider.isValid()) {
                                     $("#dialog-waiting").dialog('open');
-                                    $("#dialog-photoForm").dialog("close");
-                                    webAPI_PUT(photo, () => { updateUI(); }, AlertError);
+                                    $("#dialog-newsForm").dialog("close");
+                                    webAPI_PUT(news, () => { updateUI(); }, AlertError);
                                 }
                             }
                         }
                     },
                     {
-                        id: 'btn-Cancelphoto',
+                        id: 'btn-Cancelnews',
                         text: 'Annuler',
                         click: function () {
                             $(this).dialog('close');
@@ -301,87 +284,84 @@
                     }
                 ]
             });
-            $('#dialog-photoForm').on('dialogopen', function (event) {
+            $('#dialog-newsForm').on('dialogopen', function (event) {
                 pausephotosListPeriodicRefresh = true;
-                $('#btn-Savephoto').addClass("btn btn-primary");
-                $('#btn-Cancelphoto').addClass("btn btn-secondary");
-                $('#photoTitle').val("");
-                $('#photoDescription').val(""); // todo set UserId field
-                clearImageData('photo');
-                $("#photoShared").prop("checked", true);
+                $('#btn-Savenews').addClass("btn btn-primary");
+                $('#btn-Cancelnews').addClass("btn btn-secondary");
+                $('#newsTitle').val("");
+                $('#newsText').val(""); // todo set UserId field
+                clearImageData('news');
+
                 /// Tres important si on veut que la photo par defaut soit affichée dans le dialogue
-                setImageDownloaderBlankImage('photo');
-                $("#photoUserId").val(retrieveLoggedUser().Id);
-                $("#btn_OpenAddphotoDialog").hide();
+                setImageDownloaderBlankImage('news');
+                $("#newsUserId").val(retrieveLoggedUser().Id);
+                $("#btn_OpenAddNewsDialog").hide();
             });
-            $('#dialog-photoForm').on('dialogclose', function (event) {
+            $('#dialog-newsForm').on('dialogclose', function (event) {
                 addMode = false;
                 editMode = false;
                 pausephotosListPeriodicRefresh = false;
                 resetphotoValidation();
-                $("#btn_OpenAddphotoDialog").show();
+                $("#btn_OpenAddNewsDialog").show();
             });
         }
         function operationOnGoing() {
             return addMode || editMode || editProfil;
         }
-        function OpenAddphotoDialog() {
+        function OpenAddNewsDialog() {
             if (!operationOnGoing()) {
                 addMode = true;
-                $('#dialog-photoForm').dialog('option', 'title', 'Ajout de publication');
-                $("#dialog-photoForm").dialog('open');
+                $('#dialog-newsForm').dialog('option', 'title', 'Ajout de publication');
+                $("#dialog-newsForm").dialog('open');
             }
         }
-        function OpenEditphotoDialog(e) {
+        function OpenEditNewsDialog(e) {
             e.preventDefault();
             if (!operationOnGoing()) {
                 editMode = true;
-                $('#dialog-photoForm').dialog('option', 'title', 'Modification de la publication');
-                $("#dialog-photoForm").dialog('open');
-                let photoId = e.currentTarget.id.split('_')[1];
-                webAPI_GET(photoId, fillEditphotoForm, AlertError);
+                $('#dialog-newsForm').dialog('option', 'title', 'Modification de la publication');
+                $("#dialog-newsForm").dialog('open');
+                let newsId = e.currentTarget.id.split('_')[1];
+                webAPI_GET(newsId, fillEditNewsForm, AlertError);
             }
         }
-        function fillEditphotoForm(photo) {
-            $('#photoId').val(photo.Id);
-            $('#photoUserId').val(photo.UserId);
-            $('#photoGUID').val(photo.GUID);
-            $('#photoTitle').val(photo.Title);
-            $('#photoCreated').val(photo.Created);
-            $('#photoDescription').val(photo.Description);
-            $("#photoShared").prop("checked", photo.Shared);
-            clearImageData('photo');
-            if (photo.OriginalURL != "")
+        function fillEditNewsForm(news) {
+            $('#newsId').val(news.Id);
+            $('#newsUserId').val(news.UserId);
+            $('#newsGUID').val(news.GUID);
+            $('#newsTitle').val(news.Title);
+            $('#newsCreated').val(news.Created);
+            $('#newsText').val(news.Text);
+            clearImageData('news');
+            if (news.ImageURL != "")
                 /// Tres important si on veut que la photo soit affichée dans le dialogue
-                setImageDownloaderImage('photo', photo.OriginalURL);
+                setImageDownloaderImage('news', news.ImageURL);
             else
-                setImageDownloaderBlankImage('photo');
+                setImageDownloaderBlankImage('news');
             //<div class='imageDownloader' id = 'photo' defautImageSrc='images/No_image.png'></div>
         }
 
-        function makephotoFromphotoForm(includeId = false) {
+        function makeNewsFromNewsForm(includeId = false) {
             if (includeId) {
                 // Récupération du Id du photo dans le contrôle caché
                 return {
-                    Id: parseInt($('#photoId').val()),
-                    Title: $('#photoTitle').val(),
-                    Description: $('#photoDescription').val(),
-                    Shared: $("#photoShared").prop("checked"),
-                    Created: $('#photoCreated').val(),
-                    GUID: $('#photoGUID').val(),
-                    UserId: parseInt($('#photoUserId').val()),
-                    ImageData: getImageData('photo')
+                    Id: parseInt($('#newsId').val()),
+                    Title: $('#newsTitle').val(),
+                    ImageData: getImageData('news'),
+                    Text: $('#newsText').val(),
+                    Created: parseInt($('#newsCreated').val()),
+                    GUID: $('#newsGUID').val(),
+                    UserId: parseInt($('#newsUserId').val())
                 };
             }
             return {
                 Id: 0,
-                Title: $('#photoTitle').val(),
-                Description: $('#photoDescription').val(),
-                Shared: $("#photoShared").prop("checked"),
-                Created: $('#photoCreated').val(),
-                GUID: $('#photoGUID').val(),
-                UserId: parseInt($('#photoUserId').val()),
-                ImageData: getImageData('photo')
+                Title: $('#newsTitle').val(),
+                ImageData: getImageData('news'),
+                Text: $('#newsText').val(),
+                Created: parseInt($('#newsCreated').val()),
+                GUID: $('#newsGUID').val(),
+                UserId: parseInt($('#newsUserId').val())
             };
         }
         function deletephoto(e) {
@@ -632,7 +612,7 @@
                 $("#avatarContainer").empty();
                 unsetUsername();
                 $("#btn_OpenLoginForm").show();
-                $("#btn_OpenLoginForm").css("background-color","green");
+                $("#btn_OpenLoginForm").css("background-color", "green");
                 $("#btn_OpenConfirmLogout").hide();
                 $("#btn_OpenAddphotoDialog").hide();
                 $('#btn_OpenProfilDialog').attr("tooltip", "Création de compte");
@@ -687,6 +667,7 @@
             let first = true;
             let sortIndex = 0;
             sorted.forEach(sort => {
+                console.log(sort)
                 if (first) {
                     first = false;
                     queryString += '?';
@@ -723,13 +704,13 @@
         }
         function getphotos(forceRefreshphotoList = false) {
             if (forceRefreshphotoList) {
-                webAPI_GET_ALL(queryString, updatephotoList, AlertError);
+                webAPI_GET_ALL(queryString, updateNewsList, AlertError);
             } else
                 webAPI_HEAD(checkETag, AlertError);
         }
         function checkETag(ETag) {
             if (ETag != currentETag) {
-                webAPI_GET_ALL(queryString, updatephotoList, AlertError);
+                webAPI_GET_ALL(queryString, updateNewsList, AlertError);
             }
         }
         function createCssClass(name, rules) {
@@ -743,7 +724,7 @@
         }
 
         function insertWaitingStatus() {
-            $('#photoList').empty();
+            $('#newsList').empty();
             $("#dialog-waiting").dialog('open');
         }
         function statusToString(status) {
@@ -789,24 +770,24 @@
             });
         }
 
-        function initphotoValidation() {
-            photoValidationProvider = new ValidationProvider("photoForm");
-            photoValidationProvider.addControl("photoTitle", validate_photoTitle, false /*validateOnLeave*/);
-            photoValidationProvider.addControl("photoDescription", validate_photoDescription, false /*validateOnLeave*/);
+        function initNewsValidation() {
+            newsValidationProvider = new ValidationProvider("newsForm");
+            newsValidationProvider.addControl("newsTitle", validate_newsTitle, false /*validateOnLeave*/);
+            newsValidationProvider.addControl("newsText", validate_newsText, false /*validateOnLeave*/);
         }
         function resetphotoValidation() {
-            photoValidationProvider.reset();
+            newsValidationProvider.reset();
         }
-        function validate_photoTitle() {
-            let TBX_Title = document.getElementById("photoTitle");
+        function validate_newsTitle() {
+            let TBX_Title = document.getElementById("newsTitle");
             if (TBX_Title.value === "")
                 return "Titre manquant";
             return "";
         }
-        function validate_photoDescription() {
-            let TBX_Description = document.getElementById("photoDescription");
+        function validate_newsText() {
+            let TBX_Description = document.getElementById("newsText");
             if (TBX_Description.value === "")
-                return "Description manquante";
+                return "Texte manquant";
             return "";
         }
         function initProfilValidation() {
@@ -895,40 +876,37 @@
         function previewImageLink(url) {
             return $("<a href='" + url + "' target='_blank'></a>");
         }
-        function post(photo, loggedUserId) {
+        function post(news, loggedUserId) {
             let lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
             let showCRUD = 'hidden';
             showCRUD = 'visible';
 
             let postContainer = $("<div class='postContainer'></div>");
             let postLayout = $("<div class='postLayout' id='postLayout'></div>");
-            let postUserInfo = $("<div class='postUserInfo' id='postUserInfo_"+ photo.Id + "'></div>");
-            let postInfo = $("<div class='postInfo' id='postInfo_" + photo.Id + "'></div>");
-            let CRUDBtnContainer = $("<div class='postCRUDBtnContainer' id='postCRUDBtnContainer_" + photo.Id + "'></div>")
-            let avatarContainer = $("<div id='postAvatarContainer' style='margin-left: 15px;'></div>");
+            let postUserInfo = $("<div class='postUserInfo' id='postUserInfo_" + news.Id + "'></div>");
+            let postInfo = $("<div class='postInfo' id='postInfo_" + news.Id + "'></div>");
+            let CRUDBtnContainer = $("<div class='postCRUDBtnContainer' id='postCRUDBtnContainer_" + news.Id + "'></div>")
+            let avatarContainer = $("<div id='postAvatarContainer' class='postAvatarContainer'></div>");
 
-            webAPI_getPostUserInfo(photo.UserId, (user) => {avatarContainer.append("<div class='postAvatar' style='background:url(" + user.AvatarURL + ") no-repeat center; background-size: cover; margin-right:5px;''></div>")});
-            
-            postUserInfo.append($("<p class='postUsername' id='postUsername_"+photo.Id+"'>"+photo.Username+"</p>"));
-            postInfo.append($("<p class='postTitle' id='photoTitle_"+ photo.Id + "'>"+photo.Title + "</p>"));
-            postInfo.append($("<div class='postImage' style='background:url(" + photo.ThumbnailURL + ") no-repeat center; background-size: cover; margin-right:5px;'></div>"));
-            postInfo.append($("<div class='postDescription' id='postDescription_"+photo.Id + "'>"+lorem+"</div>"));
+            webAPI_getPostUserInfo(news.UserId, (user) => {
+                avatarContainer.append("<div class='postAvatar' style='background:url(" + user.AvatarURL + ") no-repeat center; background-size: cover;''></div>");
+                postUserInfo.append($("<p class='postUsername' id='postUsername_" + news.Id + "'>" + user.Name + "</p>"));
+            });
+            postInfo.append($("<p class='postTitle' id='photoTitle_" + news.Id + "'>" + news.Title + "</p>"));
+            postInfo.append($("<div class='postImage' style='background:url(" + news.ImageURL + ") no-repeat center; background-size: cover; margin-right:5px;'></div>"));
+            postInfo.append($("<div class='postDescription' id='postDescription_" + news.Id + "'>" + news.Text + "</div>"));
 
-     
+
 
             const options = { /*weekday: 'long', */year: 'numeric', month: 'long', day: 'numeric' };
             //let image = html_fittedImage(photo.ThumbnailURL, "thumbnail");
-            //if (connected && photo.UserId == loggedUserId) {
-            if (0 == 0) {
+            if (connected && news.UserId == loggedUserId) {
                 showCRUD = 'visible';
                 // Bouton d'appel à la modification de la photo
-                $(CRUDBtnContainer).append(makeButton("editPost fa fa-pencil", "edit_" + photo.Id, "Modifier " + photo.Title));
+                $(CRUDBtnContainer).append(makeButton("editPost fa fa-pencil", "edit_" + news.Id, "Modifier " + news.Title));
                 // Bouton d'appel au retrait de photo
-                //image.append(makeButton("deletephoto btncmd", "delete_" + photo.Id, "Effacer " + photo.Title).append(makeGlyphIcon('remove')));
-                if (photo.Shared) {
-                    //image.append($("<img src='images/shared.png' class='sharedIndicator'>"));
-                }
-            } 
+                $(CRUDBtnContainer).append(makeButton("deletePost fa fa-eraser", "delete_" + news.Id, "Effacer " + news.Title));
+            }
 
             postUserInfo.append(avatarContainer);
             postLayout.append(postUserInfo);
@@ -939,37 +917,15 @@
             return postContainer;
         }
 
-        function checkCRUDPermission(photo){
-            $("#postLayout_"+photo.Id).append("allo");
-            
-            const options = { /*weekday: 'long', */year: 'numeric', month: 'long', day: 'numeric' };
-            //let image = html_fittedImage(photo.ThumbnailURL, "thumbnail");
-            //if (connected && photo.UserId == loggedUserId) {
-            if (0 == 0) {
-                // Bouton d'appel à la modification de la photo
-                $("#postLayout_"+photo.Id).append(makeButton("editphoto btncmd", "edit_" + photo.Id, "Modifier " + photo.Title).append(makeGlyphIcon('pencil')));
-                // Bouton d'appel au retrait de photo
-                //image.append(makeButton("deletephoto btncmd", "delete_" + photo.Id, "Effacer " + photo.Title).append(makeGlyphIcon('remove')));
-                if (photo.Shared) {
-                    //image.append($("<img src='images/shared.png' class='sharedIndicator'>"));
-                }
-            }
-            //postContainer.append(previewImageLink(photo.OriginalURL).append(image));
-        }
-
-        function updatephotoList(photos, ETag) {
+        function updateNewsList(news, ETag) {
             currentETag = ETag;
-            $('#photoList').empty();
+            $('#newsList').empty();
             let loggedUserId = (retrieveLoggedUser() ? retrieveLoggedUser().Id : null);
             if (loggedUserId) {
-                photos.forEach(photo => {
-                    if (photo.UserId == loggedUserId || photo.Shared)
-                    {
-                        $('#photoList').append(post(photo, loggedUserId));
-                        checkCRUDPermission(photo);
-                    }
+                news.forEach(n => {
+                    $('#newsList').append(post(n, loggedUserId));
                 });
-                $('.editPost').click(OpenEditphotoDialog);
+                $('.editPost').click(OpenEditNewsDialog);
                 $('.deletePost').click(deletephoto);
             }
             $("#dialog-waiting").dialog('close');
