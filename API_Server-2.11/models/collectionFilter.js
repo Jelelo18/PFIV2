@@ -14,7 +14,7 @@ module.exports =
                 let paramValue = filterParams[paramName];
                 if (paramValue) {
                     switch (paramName) {
-                        case "sort": instance.setSortFields(paramValue); break;
+                        case "sort": instance.setSortFields(paramValue);break;
                         case "limit": instance.limit = parseInt(paramValue); break;
                         case "offset": instance.offset = parseInt(paramValue); break;
                         default: instance.addSearchKey(paramName, paramValue);
@@ -51,12 +51,11 @@ module.exports =
                 this.sortFields.push(this.makeSortField(fieldNames));
         }
         addSearchKey(keyName, value) {
-            let name = utilities.capitalizeFirstLetter(keyName.toLowerCase());
-            this.searchKeys.push({ name: name, value: value });
+            this.searchKeys.push({ name: keyName, value: value });
         }
         valueMatch(value, searchValue) {
             try {
-                return new RegExp('^' + searchValue.toLowerCase().replace(/\*/g, '.*') + '$').test(value.toLowerCase());
+                return new RegExp('^' + searchValue.toLowerCase().replace(/\*/g, '.*') + '$').test(value.toString().toLowerCase());
             } catch (error) {
                 console.log(error);
                 return false;
@@ -119,6 +118,7 @@ module.exports =
             return 0;
         }
         sort() {
+            console.log("allo")
             this.filteredCollection.sort((a, b) => this.compare(a, b));
         }
         get() {

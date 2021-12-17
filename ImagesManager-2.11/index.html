@@ -60,7 +60,7 @@
     <!---NEWS MANAGER UI CONTAINER--------------------------------------------------------->
     <!---NAVBAR------------------------------------------------------->
     <div>
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ffffff;" id="customNavbar">
+        <nav class="navbar-dark" style="background-color: #ffffff;" id="customNavbar">
             <img src="./images/favicon.png" style="height: 60px; border-radius: 8px; margin-left: 5px;">
             <a class="navbar-brand" href="index.html"
                 style="margin-left: 0px; font-family: Verdana, Geneva, Tahoma, sans-serif; color: black; font-weight: 700; margin-left: 10px;">News
@@ -68,40 +68,40 @@
 
             <span id="addNewsBtn" class="fa fa-plus" style="font-size: 3em; color: green; cursor: pointer; margin-left: 10px;"></span>
 
-            <form class="navbar-form"
-                style="display: flex; flex-direction: row; align-items: center; margin-left: 100px;">
-                <div class="form-group">
-                    <input type="search" id="form1" class="form-control" placeholder="Recherche par auteur"
-                        style="border-radius: 5px 0px 0px 5px;" />
+            <form class="navbar-form navbarSearchContainer">
+                <div class="form-group navbarAuthorList">
+                    <div style="display: flex; flex-direction: row;">
+                        <input class="form-control" id="search_authors" name="searchbox" type="text" placeholder="Recherche par autheur" disabled>
+                        <button id="authorListBtn" type="button" class="btn" style="margin-left: 0px; border-radius: 0px 5px 5px 0px;">
+                            <i class="fa fa-angle-down" style="font-size: 20px"></i>
+                        </button>
+                    </div>
+                    <div id="authorList" class="list-group">
+                        <!--Peuplé par du JS-->
+                    </div>
+                    
                 </div>
-                <button type="button" class="btn" style="margin-left: 0px; border-radius: 0px 5px 5px 0px;">
-                    <i class="fa fa-search" style="font-size: 20px"></i>
-                </button>
-                <div class="form-group" style="margin-left: 15px;">
-                    <input type="search" id="form1" class="form-control" placeholder="Recherche par mots-clés"
-                        style="border-radius: 5px 0px 0px 5px;" />
+                <div class="form-group navbarSearchInput">
+                    <input type="search" id="search_keywords" class="form-control" placeholder="Recherche par mots-clés"style="border-radius: 5px 0px 0px 5px;" />
+                    <button type="button" class="btn" style="margin-left: 0px; border-radius: 0px 5px 5px 0px;">
+                        <i class="fa fa-search" style="font-size: 20px"></i>
+                    </button>
                 </div>
-                <button type="button" class="btn" style="margin-left: 0px; border-radius: 0px 5px 5px 0px;">
-                    <i class="fa fa-search" style="font-size: 20px"></i>
-                </button>
             </form>
 
-            <ul class="nav navbar-nav navbar-right" style="float: right;">
+            <ul class="navBarUserContainer">
 
                 <!-- CONTAINER WRAPPER -->
                 <div id="avatarContainer"></div>
                 <h5 id="username">
                     </h1>
-                    <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;"
-                        id="btn_OpenLoginForm">
+                    <button type="button" class="btn btn-light" style="margin-left: 10px; height: 40px;" id="btn_OpenLoginForm">
                         <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
                     </button>
-                    <button type="button" class="btn btn-light" style="min-width: 20px; margin-left: 150px;"
-                        id="btn_OpenConfirmLogout">
+                    <button type="button" class="btn btn-light" style="margin-left: 10px; height: 40px" id="btn_OpenConfirmLogout">
                         <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px;"></i>
                     </button>
-                    <button type="button" class="btn"
-                        style="min-width: 20px; margin-left: 5px; background-color: #ffffff;" id="btn_OpenProfilDialog">
+                    <button type="button" class="btn" style="margin-left: 10px; height: 40px; background-color: #ffffff;" id="btn_OpenProfilDialog">
                         <i class="fa fa-user" aria-hidden="true" style="font-size: 20px;"></i>
                     </button>
             </ul>
@@ -195,6 +195,7 @@
         let queryString = "";
         let search = "";
         let searchShowed = false;
+        let authorListOpened = false;
         let sorted = [{ field: "Created", desc: true }];
         let currentETag = "";
         let previousQueryString = "";
@@ -218,12 +219,13 @@
             $("#btn_OpenProfilDialog").click(OpenProfilDialog);
 
             $('#showSearch').click(toogleSearchVisibility);
-
+            
+            $("#authorListBtn").click(showAuthorList)
             $("#sort_Title").click(updateSort);
             $("#sort_Created").click(updateSort);
             $("#sort_Username").click(updateSort);
 
-            $("input[type=search").on("input", updatePhotosSearch);
+            $("input[type=search").on("input", updateNewsSearch);
             $("#dialog-waiting").dialog({
                 autoOpen: false,
                 show: { effect: 'fade', duration: 400 },
@@ -233,13 +235,13 @@
             insertWaitingStatus();
             initphotosListColumnsLayout();
 
-            updatePhotosSearch();
+            updateNewsSearch();
             installPeriodicphotosListRefresh();
         }
 
         function installPeriodicphotosListRefresh() {
             setInterval(() => {
-                if (!pausephotosListPeriodicRefresh & connected) getphotos();
+                if (!pausephotosListPeriodicRefresh & connected) getNews();
             }, periodicRefreshPeriod * 1000);
         }
         function initphotosListColumnsLayout() {
@@ -266,7 +268,7 @@
                                     webAPI_POST(news, () => { updateUI(); }, AlertError);
                                 }
                             } else {
-                                let photo = makeNewsFromNewsForm(true);
+                                let news = makeNewsFromNewsForm(true);
                                 if (newsValidationProvider.isValid()) {
                                     $("#dialog-waiting").dialog('open');
                                     $("#dialog-newsForm").dialog("close");
@@ -328,7 +330,7 @@
         function fillEditNewsForm(news) {
             $('#newsId').val(news.Id);
             $('#newsUserId').val(news.UserId);
-            $('#newsGUID').val(news.GUID);
+            $('#newsGUID').val(news.ImageGUID);
             $('#newsTitle').val(news.Title);
             $('#newsCreated').val(news.Created);
             $('#newsText').val(news.Text);
@@ -350,7 +352,7 @@
                     ImageData: getImageData('news'),
                     Text: $('#newsText').val(),
                     Created: parseInt($('#newsCreated').val()),
-                    GUID: $('#newsGUID').val(),
+                    ImageGUID: $('#newsGUID').val(),
                     UserId: parseInt($('#newsUserId').val())
                 };
             }
@@ -360,7 +362,7 @@
                 ImageData: getImageData('news'),
                 Text: $('#newsText').val(),
                 Created: parseInt($('#newsCreated').val()),
-                GUID: $('#newsGUID').val(),
+                ImageGUID: $('#newsGUID').val(),
                 UserId: parseInt($('#newsUserId').val())
             };
         }
@@ -636,6 +638,10 @@
             $("#showSearchIcon").removeClass("glyphicon glyphicon-zoom-in");
             $("#showSearchIcon").addClass("glyphicon glyphicon-zoom-out");
         }
+        function showAuthorList() {
+            authorListOpened ? $("#authorList").css("display","none") : $("#authorList").css("display","block");
+            authorListOpened = !authorListOpened;
+        }
         function updateSort(e) {
             let name = e.target.id.split('_')[1];
             $("#dir_" + name).removeClass("glyphicon glyphicon-sort-by-attributes");
@@ -653,16 +659,16 @@
             }
             if (!found)
                 sorted.push({ field: name, desc: false });
-            updatePhotosSearch();
+            updateNewsSearch();
         }
         function addSearchKey(key, value) {
             if (value != "") {
                 if (search != "") search += "&";
-                search += key + "=" + value + "*";
+                search += key + "=" + "*" + value + "*";
             }
         }
 
-        function updatePhotosSearch() {
+        function updateNewsSearch() {
             queryString = "";
             let first = true;
             let sortIndex = 0;
@@ -685,8 +691,8 @@
             });
 
             search = "";
-            addSearchKey("title", $("#search_title").val());
-            addSearchKey("username", $("#search_user").val());
+            addSearchKey("Username", $("#search_authors").val());
+            addSearchKey("Title", $("#search_keywords").val());
 
             if (search != "") {
                 if (queryString != "")
@@ -700,17 +706,19 @@
 
         function updateUI() {
             updateConnected();
-            getphotos(true);
+            getNews(true);
         }
-        function getphotos(forceRefreshphotoList = false) {
+        function getNews(forceRefreshphotoList = false) {
             if (forceRefreshphotoList) {
                 webAPI_GET_ALL(queryString, updateNewsList, AlertError);
+                webAPI_getAllUsers(updateAuthorsList, AlertError);
             } else
                 webAPI_HEAD(checkETag, AlertError);
         }
         function checkETag(ETag) {
             if (ETag != currentETag) {
                 webAPI_GET_ALL(queryString, updateNewsList, AlertError);
+                webAPI_getAllUsers(updateAuthorsList, AlertError);
             }
         }
         function createCssClass(name, rules) {
@@ -858,6 +866,10 @@
         function makeHyperLink(url, caption) {
             return '<a href="' + url + '"target="_blank">' + caption + '</a>';
         }
+        function makeAuthor(name) {
+            return $('<button type="button" class="list-group-item list-group-item-action" value="' + name + '">' + name + '</button>');
+        }
+
         function makeFavicon(url) {
             // Utiliser l'API de google pour extraire le favicon du site pointé par url
             // retourne un élément div comportant le favicon en tant qu'image de fond
@@ -891,6 +903,7 @@
             webAPI_getPostUserInfo(news.UserId, (user) => {
                 avatarContainer.append("<div class='postAvatar' style='background:url(" + user.AvatarURL + ") no-repeat center; background-size: cover;''></div>");
                 postUserInfo.append($("<p class='postUsername' id='postUsername_" + news.Id + "'>" + user.Name + "</p>"));
+                postUserInfo.append($("<p class='postDate' id='postDate_" + news.Id + "'>" + news.Date + "</p>"));
             });
             postInfo.append($("<p class='postTitle' id='photoTitle_" + news.Id + "'>" + news.Title + "</p>"));
             postInfo.append($("<div class='postImage' style='background:url(" + news.ImageURL + ") no-repeat center; background-size: cover; margin-right:5px;'></div>"));
@@ -917,16 +930,43 @@
             return postContainer;
         }
 
+        function author(a){
+            return $("#authorList").append(makeAuthor(a.Name).click(function (){
+                authorListClick($(this).val());
+            }));
+        }
+        function authorListClick(authorName){
+            $("#search_authors").val(authorName);
+            showAuthorList();
+            updateNewsSearch();
+            webAPI_GET_ALL(queryString, updateNewsList, AlertError);
+        }
+
         function updateNewsList(news, ETag) {
             currentETag = ETag;
             $('#newsList').empty();
             let loggedUserId = (retrieveLoggedUser() ? retrieveLoggedUser().Id : null);
             if (loggedUserId) {
+                let authorList = [];
                 news.forEach(n => {
                     $('#newsList').append(post(n, loggedUserId));
                 });
                 $('.editPost').click(OpenEditNewsDialog);
                 $('.deletePost').click(deletephoto);
+            }
+            $("#dialog-waiting").dialog('close');
+        }
+
+        function updateAuthorsList(authors, ETag) {
+            currentETag = ETag;
+            $('#authorList').empty();
+            let loggedUserId = (retrieveLoggedUser() ? retrieveLoggedUser().Id : null);
+            if (loggedUserId) {
+                $('#authorList').append($('<button type="button" class="list-group-item list-group-item-action" value="">Tous</button>').click(function (){authorListClick($(this).val())}));
+                $('#authorList').append($('<button type="button" class="list-group-item list-group-item-action" value="'+ retrieveLoggedUser().Name + '">Mes nouvelles</button>').click(function (){authorListClick($(this).val())}));
+                authors.forEach(a => {
+                    $('#authorList').append(author(a));
+                });
             }
             $("#dialog-waiting").dialog('close');
         }

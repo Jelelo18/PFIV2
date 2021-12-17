@@ -96,6 +96,21 @@ function webAPI_getUserInfo(userId, successCallBack, errorCallBack) {
         }
     })
 }
+function webAPI_getAllUsers(successCallBack, errorCallBack) {
+    $.ajax({
+        url: apiBaseURL + "/Accounts",
+        type: 'GET',
+        contentType:'text/plain',
+        data:{},
+        success: function (users) {
+            successCallBack(users);
+        },
+        error: function(jqXHR) {  
+            errorCallBack(jqXHR.status);
+            console.log("webAPI_login - error");
+        }
+    })
+}
 function webAPI_getPostUserInfo(userId, successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL + "/Accounts/index" + "/" + userId,
@@ -168,6 +183,7 @@ function webAPI_GET_ALL(queryString, successCallBack, errorCallBack) {
         contentType:'text/plain',
         data:{},
         success: (news, status, xhr) => { 
+            console.log(queryString)
             let ETag = xhr.getResponseHeader("ETag");
             successCallBack(news, ETag); 
             console.log("webAPI_GET_ALL - success", news); 
@@ -208,7 +224,7 @@ function webAPI_POST( news , successCallBack, errorCallBack) {
 }
 function webAPI_PUT(data, successCallBack, errorCallBack) {
     $.ajax({
-        url: apiBaseURL + "/api/images" + "/" + data.Id,
+        url: apiBaseURL + "/api/news" + "/" + data.Id,
         type: 'PUT',
         headers: getBearerAuthorizationToken(),
         contentType:'application/json',
@@ -222,7 +238,7 @@ function webAPI_PUT(data, successCallBack, errorCallBack) {
 }
 function webAPI_DELETE( id, successCallBack, errorCallBack) {
     $.ajax({
-        url: apiBaseURL + "/api/images" + "/" + id,
+        url: apiBaseURL + "/api/news" + "/" + id,
         contentType:'text/plain',
         type: 'DELETE',
         headers: getBearerAuthorizationToken(),
@@ -243,6 +259,32 @@ function webAPI_DELETE_Account( id, successCallBack, errorCallBack) {
         error: function(jqXHR) {
             errorCallBack(jqXHR.status);
             console.log("webAPI_DELETE_Account - error");
+        }
+    });
+}
+function webAPI_GET_ALL_Account_News( id, successCallBack, errorCallBack) {
+    $.ajax({
+        url: apiBaseURL + "/news?UserId=" + id,
+        contentType:'text/plain',
+        type: 'GET',
+        headers: getBearerAuthorizationToken(),
+        success: data => {successCallBack(data); },
+        error: function(jqXHR) {
+            errorCallBack(jqXHR.status);
+            console.log("webAPI_DELETE_Account - error");
+        }
+    });
+}
+function webAPI_DELETE_AccountNews( id, successCallBack, errorCallBack) {
+    $.ajax({
+        url: apiBaseURL + "/news/" + id,
+        contentType:'text/plain',
+        type: 'DELETE',
+        headers: getBearerAuthorizationToken(),
+        success:() => {successCallBack(); },
+        error: function(jqXHR) {
+            errorCallBack(jqXHR.status);
+            console.log("webAPI_DELETE_AccountNews - error");
         }
     });
 }

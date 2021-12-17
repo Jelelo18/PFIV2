@@ -103,18 +103,18 @@ module.exports =
             } else
                 this.response.unAuthorized();
         }
-        deleteAllUsersBookmarks(userId) {
-            let bookmarksRepository = new Repository('Bookmarks', true);
-            let bookmarks = bookmarksRepository.getAll();
+        deleteAllUsersNews(userId) {
+            let newsRepository = new Repository('News', true);
+            let news = newsRepository.getAll();
             let indexToDelete = [];
             let index = 0;
-            for (let bookmark of bookmarks) {
-                if (bookmark.UserId == userId)
+            for (let n of news) {
+                if (n.UserId == userId)
                     indexToDelete.push(index);
                 index++;
             }
-            bookmarksRepository.removeByIndex(indexToDelete);
-            Cache.clear('bookmarks');
+            newsRepository.removeByIndex(indexToDelete);
+            Cache.clear('news');
         }
         deleteAllUsersImages(userId) {
             let imagesRepository = new ImagesRepository(this.req, true);
@@ -132,7 +132,7 @@ module.exports =
 
         remove(id) {
             if (this.requestActionAuthorized()) {
-                this.deleteAllUsersBookmarks(id);
+                this.deleteAllUsersNews(id);
                 this.deleteAllUsersImages(id);
                 if (this.usersRepository.remove(id))
                     this.response.accepted();

@@ -41,6 +41,7 @@ class ImagesRepository extends Repository {
     }
     update(image) {
         image["Created"] = utilities.nowInSeconds();
+        
         if (Image.valid(image)) {
             let foundImage = super.get(image.Id);
             if (foundImage != null) {
